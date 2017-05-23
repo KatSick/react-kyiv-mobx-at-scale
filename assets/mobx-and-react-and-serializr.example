@@ -1,0 +1,159 @@
+import * as React from 'react';
+import { observable, computed, action, useStrict } from 'mobx';
+import { observer } from 'mobx-react';
+import { deserialize, serialize, serializable, object } from 'serializr';
+import './App.css';
+
+useStrict(true);
+
+const baseUrl = 'https://jsonplaceholder.typicode.com';
+
+class User {
+  @serializable id;
+  @serializable @observable name;
+  @serializable @observable email;
+
+  @serializable(object(UserAddress)) address;
+
+  @computed get humanAddress() {
+    const {
+      city, street, suite
+    } = this.address;
+
+    return `${city} ${street} ${suite}`;
+  }
+
+  @action.bound setName(e) {
+    this.name = e.target.value;
+  }
+
+  @action.bound setCity(e) {
+    this.address.city = e.target.value; 
+  }
+
+  @action.bound async updateUser() {
+    const fetchConfig = {
+      method: 'PUT',
+      body: JSON.stringify(this.asJSON)
+    };
+
+    const url = `${baseUrl}/users/${this.id}`
+
+    try {
+      const r = await fetch(url, fetchConfig);
+      await r.json(); // just wait
+
+      // for demo
+      alert(JSON.stringify(
+        this.asJSON, null, 2
+      ));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  @computed get asJSON() {
+    return serialize(this);
+  }
+}
+
+class UserAddress {
+  @serializable @observable city;
+  @serializable street;
+  @serializable suite;
+}
+
+class UsersStore {
+  users = observable.array([]);
+
+  @action.bound async fetchItems() {
+    try {
+      const r = await fetch(
+        `${baseUrl}/users`
+      );
+      const data = await r.json();
+      
+      this.resetUsers(data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  @action.bound resetUsers(data) {
+    const users = data.map(item => {
+      return deserialize(User, item)
+    });
+    this.users.replace(users);
+  }
+}
+
+const store = new UsersStore();
+
+@observer
+class UserItem extends React.Component {
+  render() {
+    const { user } = this.props;
+    return (
+      <div>
+        <p className="App-intro">
+          "{user.name}" 
+          lives at 
+          "{user.humanAddress}"
+        </p>
+        <input
+          value={user.name}
+          onChange={user.setName}
+        />
+        <input
+          value={user.address.city}
+          onChange={user.setCity}
+        />
+        <button
+          onClick={user.updateUser}
+        >
+          Save on server
+        </button>
+      </div>
+    );
+  }
+}
+
+@observer
+class UsersList extends React.Component {
+  render() {
+    return (
+      <div>
+        {store.users.map((user) => {
+          return (
+            <UserItem
+              key={user.id}
+              user={user}
+            />
+          )
+        })}
+      </div>
+    );
+  }
+}
+
+@observer
+class Demo2 extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        <div className="App-header">
+          <h2>Welcome to React Kyiv</h2>
+          <img
+            className="App-logo"
+            src={require('./logo.png')}
+            alt="React Kyiv"
+          />
+        </div>
+        <button onClick={store.fetchItems}>Fetch users</button>
+        <UsersList />
+      </div>
+    );
+  }
+}
+
+export default Demo2

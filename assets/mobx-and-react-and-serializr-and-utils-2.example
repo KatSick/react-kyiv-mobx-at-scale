@@ -1,0 +1,34 @@
+import * as React from 'react';
+import { observer, inject } from 'mobx-react';
+import { fromPromise } from 'mobx-utils';
+
+@inject('usersStore') @observer
+class UsersList extends React.Component {
+  usersPromise;
+
+  componentWillMount() {
+    this.usersPromise = fromPromise(
+      this.props.usersStore.fetchItems()
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        {this.usersPromise.case({
+          pending: () => <div>loading</div>,
+          fulfilled: () => (
+            this.props.usersStore
+              .users.map(user => (
+                <UserItem
+                  key={user.id}
+                  user={user}
+                />
+              ))
+          ),
+          rejected: () => <div>whoops</div>
+        })}
+      </div>
+    );
+  }
+}
