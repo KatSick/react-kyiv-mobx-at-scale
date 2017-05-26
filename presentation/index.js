@@ -4,17 +4,14 @@ import React from "react";
 // Import Spectacle Core tags
 import {
   Appear,
-  Cite,
   Deck,
   Heading,
   ListItem,
   List,
   Link,
-  Quote,
   Slide,
   Image,
   CodePane,
-  ComponentPlayground,
   Text
 } from "spectacle";
 
@@ -84,7 +81,7 @@ export default class Presentation extends React.Component {
           <List style={{ marginTop: "60px" }}>
             <ListItem textColor="secondary">What Mobx ecosystem is</ListItem>
             <ListItem textColor="secondary">How to optimize mobx rendering</ListItem>
-            <ListItem textColor="secondary">How to build CRUD operations easily</ListItem>
+            <ListItem textColor="secondary">How to do CRUD operations easily</ListItem>
             {/*<ListItem textColor="secondary">How not to use all that mentioned above</ListItem>*/}
           </List>
         </Slide>
@@ -104,19 +101,16 @@ export default class Presentation extends React.Component {
           <Appear>
             <List style={{ marginTop: "60px" }}>
             <ListItem textColor="secondary">Typescript is NOT an superset of JS</ListItem>
-            <ListItem textColor="secondary">Syntactically - yes</ListItem>
+            <ListItem textColor="secondary">Syntactically — yes</ListItem>
             <ListItem textColor="secondary">We ❤️ Typescript, since it scales!</ListItem>
             <ListItem textColor="secondary">No TS features in examples</ListItem>
           </List>
-          </Appear>
-          <Appear>
-            <Text size={9} textColor="primary">To read: <Link textColor="primary" style={{ textDecoration: "underline" }} href="https://github.com/katsick">Jonas Bandi arcticle about TS</Link></Text>
           </Appear>
         </Slide>
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" caps>1. ReactJS with custom CRA</Heading>
           <CodePane style={{ marginTop: "60px" }} lang="shell" source={`
-            -> yarn create react-app tsapp -- --scripts-version=react-scripts-ts
+            -> yarn create react-app cra-ts -- --scripts-version=react-scripts-ts
             -> cd cra-ts
             -> yarn start
           `}
@@ -159,7 +153,7 @@ export default class Presentation extends React.Component {
           <List style={{ marginTop: "60px" }} ordered>
             <ListItem textColor="secondary">We re-render the entire app on every change</ListItem>
             <ListItem textColor="secondary">Contructors are bad</ListItem>
-            <ListItem textColor="secondary">Directly changing properties leads to "Backbone" hell</ListItem>
+            <ListItem textColor="secondary">Directly changing properties leads to hell</ListItem>
             <ListItem textColor="secondary">This is another TODO-like app</ListItem>
           </List>
         </Slide>
@@ -177,6 +171,7 @@ export default class Presentation extends React.Component {
           lang="js"
           code={require("raw-loader!../assets/mobx-and-react-and-serializr.example")}
           ranges={[
+            { loc: [1, 2], note: "action, useStrict imports" },
             { loc: [3, 4], note: "serializr imports" },
             { loc: [6, 7], note: "add useStrict" },
             { loc: [8, 9], note: "JSON placeholder for real data" },
@@ -236,6 +231,11 @@ export default class Presentation extends React.Component {
           code={require("raw-loader!../assets/mobx-and-react-and-serializr-and-utils-1.example")}
           ranges={[
             { loc: [0, 0], title: "Root component" },
+            { loc: [2, 3], note: "Import provider" },
+            { loc: [3, 4], note: "Import RR4" },
+            { loc: [6, 7], note: "Import UsersList component" },
+            { loc: [7, 8], note: "Import UsersCreate component" },
+            { loc: [8, 9], note: "Import Store singleton" },
             { loc: [15, 16], note: "The provider" },
             { loc: [16, 17], note: "The router" },
             { loc: [32, 44], note: "The routes" }
@@ -300,15 +300,44 @@ export default class Presentation extends React.Component {
           <Heading size={6} textColor="secondary" caps>What can be improved</Heading>
           <List style={{ marginTop: "60px" }} ordered>
             <ListItem textColor="secondary">Code structure</ListItem>
-            <ListItem textColor="secondary">Code lazy load</ListItem>
+            <ListItem textColor="secondary">Code testing</ListItem>
             <ListItem textColor="secondary">Form validation</ListItem>
+            <ListItem textColor="secondary">Code lazy load</ListItem>
+            <ListItem textColor="secondary">Add Authentication</ListItem>
             <ListItem textColor="secondary">Add D in CRUD</ListItem>
-            <ListItem textColor="secondary">More typescript ? 🤓</ListItem>
+            <ListItem textColor="secondary">Add more typescript ? 🤓</ListItem>
             <ListItem textColor="secondary">???</ListItem>
+            <ListItem textColor="secondary">PROFIT</ListItem>
           </List>
         </Slide>
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <Heading size={6} textColor="secondary" caps>fin</Heading>
+          <Appear>
+            <Heading style={{ marginTop: "60px" }} size={6} textColor="secondary">Whant to learn more ?</Heading>
+          </Appear>
+          <Appear>
+            <List style={{ marginTop: "60px" }}>
+              <ListItem textColor="secondary"><Link textColor="secondary" style={{ textDecoration: "underline" }} href="http://blog.jonasbandi.net/2016/10/myth-of-superset.html">Jonas Bandi arcticle about TS</Link></ListItem>
+              <ListItem textColor="secondary"><Link textColor="secondary" style={{ textDecoration: "underline" }} href="https://github.com/wmonk/create-react-app-typescript">CRA with Typescript support</Link></ListItem>
+              <ListItem textColor="secondary"><Link textColor="secondary" style={{ textDecoration: "underline" }} href="https://mobx.js.org/">Mobx docs</Link></ListItem>
+              <ListItem textColor="secondary"><Link textColor="secondary" style={{ textDecoration: "underline" }} href="https://medium.com/@mweststrate/introducing-serializr-serializing-and-deserializing-object-graphs-with-ease-8833c3fcea02">serializr intro</Link></ListItem>
+              <ListItem textColor="secondary"><Link textColor="secondary" style={{ textDecoration: "underline" }} href="https://medium.com/@mweststrate/mobx-utils-community-driven-utility-belt-for-mobx-264346cb2744">mobx-utils intro</Link></ListItem>
+            </List>
+          </Appear>
+          <Appear>
+            <Heading style={{ marginTop: "60px" }} size={6} textColor="secondary">Whant to try the examples provided here ?</Heading>
+          </Appear>
+          <Appear>
+            <List style={{ marginTop: "60px" }}>
+              <ListItem textColor="secondary">Demos: <Link textColor="secondary" style={{ textDecoration: "underline" }} href="https://react-kyiv-mobx-at-real-world-app.surge.sh/">goo.gl/t2LlA5</Link></ListItem>
+              <ListItem textColor="secondary">Demos code: <Link textColor="secondary" style={{ textDecoration: "underline" }} href="https://github.com/KatSick/react-kyiv-mobx-at-scale-code-sample">goo.gl/Ms7iU4</Link></ListItem>
+            </List>
+          </Appear>
+        </Slide>
+        <Slide transition={["zoom"]} bgColor="tertiary" maxHeight="100%" style={{ height: "100%" }}>
+        <Text style={{ marginBottom: "180px" }} textColor="secondary"><Link textColor="secondary" style={{ textDecoration: "underline" }} href="http://react-kyiv-mobx-at-scale.surge.sh/#/">goo.gl/bA2L19</Link></Text>
+          <Heading size={1} textColor="secondary">FIN</Heading>
+          <Text style={{ marginTop: "180px", fontSize: "1.66rem" }} textColor="secondary">P.S. We are hiring</Text>
+          <Image src={images.striker} width={150} />
         </Slide>
       </Deck>
     );
